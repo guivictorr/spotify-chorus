@@ -13,7 +13,6 @@ function createChorusLink() {
   anchor.innerText = "CH";
   anchor.target = "_blank";
   anchor.style.fontSize = "0.875rem";
-  anchor.style.display = "flex";
   anchor.className = ".chorus-trackrow-link";
 
   return anchor;
@@ -37,20 +36,28 @@ function addChorusLink(trackRow) {
   lastDivFromTrackRow.appendChild(chorusLink.cloneNode(true));
 }
 
-trackListRow.forEach(addChorusLink);
+// Observer to check if any song row element is added to DOM
 
-// Observe if any tracklist-row is added to DOM
+function checkIfSongRowIsAdded(domMutation) {
+  const node = domMutation.addedNodes.item(0);
+  const isNodeValid =
+    typeof node === "object" && node !== null && "getAttribute" in node;
+
+  if (!isNodeValid) {
+    return;
+  }
+
+  const nodeAttributeRole = node.getAttribute("role");
+
+  if (nodeAttributeRole === "row") {
+    addChorusLink(node.querySelector(selectors.trackListRow));
+  }
+}
 
 const target = document.querySelector("body");
 
 const observer = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    const node = mutation.addedNodes.item(0);
-
-    if (node && node.querySelector(selectors.trackListRow)) {
-      addChorusLink(node.querySelector(selectors.trackListRow));
-    }
-  });
+  mutations.forEach(checkIfSongRowIsAdded);
 });
 
 const config = {
