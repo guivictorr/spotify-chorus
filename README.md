@@ -1,6 +1,10 @@
 <h1 align='center'>Spotify Chorus</h1>
 <p align='center'>This extension for Chrome add <a href="https://chorus.fightthe.pw/">Chorus</a> link for Spotify songs</p>
 
+> What it's Chorus ?
+> 
+> Clone Hero-friendly Organized Repository of User-provided Songs
+
 ## 📱💻 Instructions
 
 ```
