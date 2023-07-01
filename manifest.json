@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Spotify Chorus",
+  "version": "1.0",
+  "description": "Add Chorus link to Spotify songs",
+  "content_scripts": [
+    {
+      "js": ["scripts/index.js"],
+      "matches": ["https://open.spotify.com/*"]
+    }
+  ]
+}
