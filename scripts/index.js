@@ -1,4 +1,11 @@
-const tracklist = document.querySelectorAll('div[data-testid="tracklist-row"]');
+const selectors = {
+  trackListRow: 'div[data-testid="tracklist-row"]',
+  songName: 'div[data-encore-id="type',
+  artistName: 'a[href^="/artist/"]',
+  artistNameFallback: 'span[data-testid="entityTitle"]',
+};
+
+const trackListRow = document.querySelectorAll(selectors.trackListRow);
 
 function createChorusLink() {
   const anchor = document.createElement("a");
@@ -7,33 +14,30 @@ function createChorusLink() {
   anchor.target = "_blank";
   anchor.style.fontSize = "0.875rem";
   anchor.style.display = "flex";
-  anchor.className = "chorus-extension-link";
+  anchor.className = ".chorus-trackrow-link";
 
   return anchor;
 }
 
 const chorusLink = createChorusLink();
 
-function addChorusLink(track) {
-  const lastDivFromTrackRow = track.lastChild;
-  const chorusExist = lastDivFromTrackRow.querySelector(
-    ".chorus-extension-link"
-  );
+function addChorusLink(trackRow) {
+  const lastDivFromTrackRow = trackRow.lastChild;
 
-  if (chorusExist) return;
-
-  const songName = track.querySelector('div[data-encore-id="type"').innerText;
+  const songName = trackRow.querySelector(selectors.songName)?.innerText;
+  const artistName = trackRow.querySelector(selectors.artistName)?.innerText;
   const artistNameFallback = document.querySelector(
-    'span[data-testid="entityTitle"]'
-  ).innerText;
-  const artistName = track.querySelector('a[href^="/artist/"]')?.innerText;
+    selectors.artistNameFallback
+  )?.innerText;
+
   chorusLink.href = `https://chorus.fightthe.pw/search?query=name="${songName}" artist="${
     artistName ?? artistNameFallback
   }"`;
+
   lastDivFromTrackRow.appendChild(chorusLink.cloneNode(true));
 }
 
-tracklist.forEach(addChorusLink);
+trackListRow.forEach(addChorusLink);
 
 // Observe if any tracklist-row is added to DOM
 
@@ -43,13 +47,13 @@ const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     const node = mutation.addedNodes.item(0);
 
-    if (node && node.querySelector('div[data-testid="tracklist-row"]')) {
-      addChorusLink(node.querySelector('div[data-testid="tracklist-row"]'));
+    if (node && node.querySelector(selectors.trackListRow)) {
+      addChorusLink(node.querySelector(selectors.trackListRow));
     }
   });
 });
 
-var config = {
+const config = {
   attributes: false,
   childList: true,
   subtree: true,
