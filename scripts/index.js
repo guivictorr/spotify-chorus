@@ -1,21 +1,97 @@
 const selectors = {
   trackListRow: 'div[data-testid="tracklist-row"]',
-  songName: 'div[data-encore-id="type',
-  artistName: 'a[href^="/artist/"]',
+  trackListRowSongName: 'a[data-testid="internal-track-link"]',
+  trackListRowArtistName:
+    'div[data-testid="tracklist-row"] a[href^="/artist/"]',
   artistNameFallback: 'span[data-testid="entityTitle"]',
+  currentSongName:
+    'div[data-testid="context-item-info-title"] a[data-testid="context-item-link"]',
+  currentArtistName:
+    'div[data-testid="context-item-info-subtitles"] a[data-testid="context-item-info-artist"]',
+  nowPlayingWidget: 'div[data-testid="now-playing-widget"]',
 };
 
-const trackListRow = document.querySelectorAll(selectors.trackListRow);
+// Functions to get Song Info from a track row or current playing widget
 
-function createChorusLink(songName, artistName) {
-  const anchor = document.createElement("a");
+function getSongInfoFromCurrentTrack() {
+  const currentSongName = document.querySelector(
+    selectors.currentSongName
+  )?.innerText;
+  const sanitizedCurrentSongName = sanitizeSongName(currentSongName);
+  const currentArtistName = document.querySelector(
+    selectors.currentArtistName
+  )?.innerText;
+
+  return {
+    currentSongName: sanitizedCurrentSongName,
+    currentArtistName,
+  };
+}
+
+function getSongInfoFromTrackRow(trackRow) {
+  const songName = trackRow.querySelector(
+    selectors.trackListRowSongName
+  )?.innerText;
+  const sanitizedSongName = sanitizeSongName(songName);
+
+  const artistName = trackRow.querySelector(
+    selectors.trackListRowArtistName
+  )?.innerText;
+  const artistNameFallback = document.querySelector(
+    selectors.artistNameFallback
+  )?.innerText;
+
+  return {
+    songName: sanitizedSongName,
+    artistName: artistName ?? artistNameFallback,
+  };
+}
+
+// Append Chorus Link to track rows and current track widget
+
+function addChorusLinkToCurrentTrack() {
+  const playingWidget = document.querySelector(selectors.nowPlayingWidget);
+  const chorusLinkElement = playingWidget.querySelector(
+    ".chorus-current-track"
+  );
+  const { currentArtistName, currentSongName } = getSongInfoFromCurrentTrack();
+  const chorusHref = buildChorusHref(currentSongName, currentArtistName);
+
+  if (chorusLinkElement) {
+    chorusLinkElement.setAttribute("href", chorusHref);
+    return;
+  }
+
+  const chorusLink = createChorusLink(chorusHref);
+  chorusLink.classList.add("chorus-current-track");
+  playingWidget.appendChild(chorusLink);
+}
+
+function addChorusLink(trackRow) {
+  const lastDivFromTrackRow = trackRow.lastChild;
+
+  const { songName, artistName } = getSongInfoFromTrackRow(trackRow);
+  const chorusHref = buildChorusHref(songName, artistName);
+
+  const chorusLink = createChorusLink(chorusHref);
+  lastDivFromTrackRow.appendChild(chorusLink);
+}
+
+// utility functions
+
+function buildChorusHref(songName, artistName) {
   const query = `name="${songName}" artist="${artistName}"`;
+  return `https://chorus.fightthe.pw/search?query=${query}`;
+}
+
+function createChorusLink(link) {
+  const anchor = document.createElement("a");
 
   anchor.innerText = "CH";
   anchor.target = "_blank";
   anchor.style.fontSize = "0.875rem";
-  anchor.className = ".chorus-trackrow-link";
-  anchor.href = `https://chorus.fightthe.pw/search?query=${query}`;
+  anchor.className = ".chorus-link";
+  anchor.href = link;
 
   return anchor;
 }
@@ -29,33 +105,9 @@ function sanitizeSongName(songName) {
   return result;
 }
 
-function getSongInfoFromTrackRow(trackRow) {
-  const songName = trackRow.querySelector(selectors.songName)?.innerText;
-  const sanitizedSongName = sanitizeSongName(songName);
-
-  const artistName = trackRow.querySelector(selectors.artistName)?.innerText;
-  const artistNameFallback = document.querySelector(
-    selectors.artistNameFallback
-  )?.innerText;
-
-  return {
-    songName: sanitizedSongName,
-    artistName: artistName ?? artistNameFallback,
-  };
-}
-
-function addChorusLink(trackRow) {
-  const lastDivFromTrackRow = trackRow.lastChild;
-
-  const { songName, artistName } = getSongInfoFromTrackRow(trackRow);
-
-  const chorusLink = createChorusLink(songName, artistName);
-  lastDivFromTrackRow.appendChild(chorusLink);
-}
-
 // Observer to check if any song row element is added to DOM
 
-function checkIfSongRowIsAdded(domMutation) {
+function validateBodyMutations(domMutation) {
   const node = domMutation.addedNodes.item(0);
   const isNodeValid =
     typeof node === "object" && node !== null && "getAttribute" in node;
@@ -69,12 +121,16 @@ function checkIfSongRowIsAdded(domMutation) {
   if (nodeAttributeRole === "row") {
     addChorusLink(node.querySelector(selectors.trackListRow));
   }
+
+  if (node.querySelector(selectors.currentSongName)) {
+    addChorusLinkToCurrentTrack();
+  }
 }
 
 const target = document.querySelector("body");
 
 const observer = new MutationObserver((mutations) => {
-  mutations.forEach(checkIfSongRowIsAdded);
+  mutations.forEach(validateBodyMutations);
 });
 
 const config = {
