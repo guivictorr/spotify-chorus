@@ -6,9 +6,16 @@
 <div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/8c069eee-d273-4d8f-82e5-d34ba08950ad"
 /></div>
 
-> What it's Chorus ?
-> 
-> Clone Hero-friendly Organized Repository of User-provided Songs
+## What it's Chorus ?
+[Clone Hero-friendly Organized Repository of User-provided Songs](https://chorus.fightthe.pw/) it's a open source project from [@Paturages](https://github.com/Paturages)
+
+>From [Chorus](https://chorus.fightthe.pw/) README.md
+>
+>**chorus** periodically imports links to songs from a list of mostly Google Drive folders (manually provided in the sources folder). It crawls the provided folders, downloads the `.chart`/`.mid` and `song.ini` files (or entire archives) to parse them for information, formally saves the links (**not the song bundles themselves**) and their metadata in a database and discards the downloaded items. The web app simply reads and searches from the data that is saved in the database.
+
+## What it's Clone Hero
+
+[Clone Hero](https://clonehero.net/) is a classic instrument based rhythm game for Windows, Mac, Linux, and Android. It's playable with any 5 or 6 fret guitar controller, any midi drum kit, any game controller and even your keyboard! Jam out with Drums, 5-fret Guitar, or 6-fret Guitar online or local!
 
 ## 📱💻 Instructions
 
