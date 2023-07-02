@@ -7,33 +7,50 @@ const selectors = {
 
 const trackListRow = document.querySelectorAll(selectors.trackListRow);
 
-function createChorusLink() {
+function createChorusLink(songName, artistName) {
   const anchor = document.createElement("a");
+  const query = `name="${songName}" artist="${artistName}"`;
 
   anchor.innerText = "CH";
   anchor.target = "_blank";
   anchor.style.fontSize = "0.875rem";
   anchor.className = ".chorus-trackrow-link";
+  anchor.href = `https://chorus.fightthe.pw/search?query=${query}`;
 
   return anchor;
 }
 
-const chorusLink = createChorusLink();
+function sanitizeSongName(songName) {
+  // Match parenthesis or brackets with live or numbers inside
+  // Match anything after a hiphen
+  const regex = /\s*[([{][^)}\]]*(live|[0-9])[^)}\]]*[)\]}]|-\s*(.*)/gi;
 
-function addChorusLink(trackRow) {
-  const lastDivFromTrackRow = trackRow.lastChild;
+  const result = songName.replace(regex, "").trim();
+  return result;
+}
 
+function getSongInfoFromTrackRow(trackRow) {
   const songName = trackRow.querySelector(selectors.songName)?.innerText;
+  const sanitizedSongName = sanitizeSongName(songName);
+
   const artistName = trackRow.querySelector(selectors.artistName)?.innerText;
   const artistNameFallback = document.querySelector(
     selectors.artistNameFallback
   )?.innerText;
 
-  chorusLink.href = `https://chorus.fightthe.pw/search?query=name="${songName}" artist="${
-    artistName ?? artistNameFallback
-  }"`;
+  return {
+    songName: sanitizedSongName,
+    artistName: artistName ?? artistNameFallback,
+  };
+}
 
-  lastDivFromTrackRow.appendChild(chorusLink.cloneNode(true));
+function addChorusLink(trackRow) {
+  const lastDivFromTrackRow = trackRow.lastChild;
+
+  const { songName, artistName } = getSongInfoFromTrackRow(trackRow);
+
+  const chorusLink = createChorusLink(songName, artistName);
+  lastDivFromTrackRow.appendChild(chorusLink);
 }
 
 // Observer to check if any song row element is added to DOM
