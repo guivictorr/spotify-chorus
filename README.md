@@ -3,7 +3,8 @@
 
 <div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/b594be0a-d66b-44f1-9539-a4e575a0c11a"
 /></div>
-
+<div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/8c069eee-d273-4d8f-82e5-d34ba08950ad"
+/></div>
 
 > What it's Chorus ?
 > 
