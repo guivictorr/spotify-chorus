@@ -23,10 +23,7 @@
 ## 1. Clone repo
 git clone https://github.com/guivictorr/spotify-chorus.git
 
-## 2. Change to project folder
-cd spotify-chorus
-
-## 3. Load Extension
+## 2. Load Extension
 # Go to chrome://extensions
 # Enable Developer Mode
 # Load Unpacked
