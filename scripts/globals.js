@@ -12,12 +12,21 @@ function sanitizeSongName(songName) {
   return result;
 }
 
+function buildImageElement() {
+  const img = document.createElement("img");
+  img.src = chrome.runtime.getURL("./assets/icon.png");
+  return img;
+}
+
 function createChorusLink(href) {
   const anchor = document.createElement("a");
 
-  anchor.innerText = "CH";
+  const img = buildImageElement();
+  anchor.appendChild(img);
+
   anchor.target = "_blank";
   anchor.style.fontSize = "0.875rem";
+  anchor.style.display = "flex";
   anchor.className = ".chorus-link";
   anchor.href = href;
 
