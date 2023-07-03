@@ -1,10 +1,9 @@
 <h1 align='center'>Spotify Chorus</h1>
 <p align='center'>This extension for Chrome add <a href="https://chorus.fightthe.pw/">Chorus</a> link for Spotify songs</p>
 
-<div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/b594be0a-d66b-44f1-9539-a4e575a0c11a"
+<div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/4eb914fd-92c3-43ea-a9fe-190605fa00b8"
 /></div>
-<div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/8c069eee-d273-4d8f-82e5-d34ba08950ad"
-/></div>
+
 
 ## What it's Chorus ?
 [Clone Hero-friendly Organized Repository of User-provided Songs](https://chorus.fightthe.pw/) it's a open source project from [@Paturages](https://github.com/Paturages)
