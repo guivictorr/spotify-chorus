@@ -1,5 +1,5 @@
 <h1 align='center'>Spotify Chorus</h1>
-<p align='center'>This extension for Chrome add <a href="https://chorus.fightthe.pw/">Chorus</a> link for Spotify songs</p>
+<p align='center'>This extension for Chrome add an <a href="https://chorus.fightthe.pw/">Chorus</a> option to search for Spotify songs at Chorus.</p>
 
 <div align="center"><img src="https://github.com/guivictorr/spotify-chorus/assets/55333929/4eb914fd-92c3-43ea-a9fe-190605fa00b8"
 /></div>
