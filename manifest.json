@@ -6,11 +6,11 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/current-track.js",
-        "scripts/globals.js",
-        "scripts/track-rows.js",
-        "scripts/mutation-observer.js"
+        "scripts/song-info.js",
+        "scripts/mutation-observer.js",
+        "scripts/chorus-button.js"
       ],
+      "css": ["style/index.css"],
       "matches": ["https://open.spotify.com/*"]
     }
   ],

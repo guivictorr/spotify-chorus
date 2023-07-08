@@ -1,24 +1,39 @@
 const target = document.querySelector("body");
 
+function addChorusButtonTo(node) {
+  const chorusButton = node.querySelector(".chorus-button");
+
+  if (!chorusButton) {
+    const chorusLink = createChorusButton();
+    node.appendChild(chorusLink);
+  }
+}
+
 function validateBodyMutations(domMutation) {
-  const node = domMutation.addedNodes.item(0);
+  const addedNode = domMutation.addedNodes.item(0);
   const isNodeValid =
-    typeof node === "object" && node !== null && "getAttribute" in node;
+    typeof addedNode === "object" &&
+    addedNode !== null &&
+    "getAttribute" in addedNode;
 
   if (!isNodeValid) {
     return;
   }
 
-  const nodeAttributeRole = node.getAttribute("role");
+  const trackListRow = addedNode.querySelector(
+    'div[data-testid="tracklist-row"]'
+  );
 
-  if (nodeAttributeRole === "row") {
-    addChorusLink(node.querySelector(trackRowSelectors.trackListRow));
+  if (trackListRow) {
+    addChorusButtonTo(trackListRow.lastChild);
   }
 
-  const songName = node.querySelector(currentTrackSelectors.currentSongName);
+  const nowPlayingWidget = document.querySelector(
+    '[data-testid="now-playing-widget"]'
+  );
 
-  if (songName) {
-    addChorusLinkToCurrentTrack();
+  if (nowPlayingWidget) {
+    addChorusButtonTo(nowPlayingWidget);
   }
 }
 
