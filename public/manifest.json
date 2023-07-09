@@ -5,11 +5,7 @@
   "description": "Add Chorus link to Spotify songs",
   "content_scripts": [
     {
-      "js": [
-        "scripts/song-info.js",
-        "scripts/mutation-observer.js",
-        "scripts/chorus-button.js"
-      ],
+      "js": ["index.js"],
       "css": ["style/index.css"],
       "matches": ["https://open.spotify.com/*"]
     }
