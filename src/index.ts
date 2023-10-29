@@ -9,31 +9,40 @@ function addChorusButtonTo(node: Element) {
 }
 
 function validateBodyMutations(domMutation: MutationRecord) {
-  const addedNode = domMutation.addedNodes.item(0) as Element;
-  const isNodeValid =
-    typeof addedNode === 'object' &&
-    addedNode !== null &&
-    'getAttribute' in addedNode;
+  const addedNode = getFirstValidAddedNode(domMutation);
 
-  if (!isNodeValid) {
+  if (!addedNode) {
     return;
   }
 
   const trackListRow = addedNode.querySelector(
     'div[data-testid="tracklist-row"]',
   );
-
-  if (trackListRow !== null) {
-    addChorusButtonTo(trackListRow.lastElementChild!);
-  }
-
   const nowPlayingWidget = document.querySelector(
     '[data-testid="now-playing-widget"]',
   );
 
+  if (trackListRow) {
+    addChorusButtonTo(trackListRow.lastElementChild!);
+  }
+
   if (nowPlayingWidget) {
     addChorusButtonTo(nowPlayingWidget);
   }
+}
+
+function getFirstValidAddedNode(domMutation: MutationRecord) {
+  const addedNode = domMutation.addedNodes.item(0) as Element;
+
+  if (isValidElement(addedNode)) {
+    return addedNode;
+  }
+
+  return null;
+}
+
+function isValidElement(element: Element | null): boolean {
+  return element instanceof Element && element.getAttribute !== undefined;
 }
 
 const observer = new MutationObserver(mutations => {
