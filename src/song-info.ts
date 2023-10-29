@@ -10,7 +10,7 @@ function sanitizeSongName(songName?: string | null) {
 
 export function getSongInfoFrom(offsetParent: Element) {
   const songNameElement = offsetParent.querySelector(
-    'a[data-testid="context-item-link"], a[data-testid="internal-track-link"]',
+    'a[data-testid="context-item-link"], a[data-testid="internal-track-link"], a[href^="/track"]',
   );
   const artistNameElement = Array.from(
     offsetParent.querySelectorAll('a[href^="/artist"]'),
