@@ -6,9 +6,20 @@ function buildChorusIcon() {
   return img;
 }
 
-function buildChorusUrl(songName: string, artistName: string) {
-  const query = `name="${songName}" artist="${artistName}"`;
-  return `https://chorus.fightthe.pw/search?query=${query}`;
+function buildChorusUrl(songName: string | null, artistName: string | null) {
+  const queryParams = [];
+
+  if (songName) {
+    queryParams.push(`name="${songName}"`);
+  }
+
+  if (artistName) {
+    queryParams.push(`artist="${artistName}"`);
+  }
+
+  const queryString = queryParams.join(' ');
+
+  return `https://chorus.fightthe.pw/search?query=${queryString}`;
 }
 
 function handleChorusButton(event: MouseEvent) {
