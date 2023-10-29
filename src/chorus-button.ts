@@ -42,6 +42,7 @@ export function createChorusButton() {
 
   button.appendChild(chorusIcon);
   button.classList.add('chorus-button');
+  button.ariaLabel = 'Search song on Chorus';
 
   button.addEventListener('click', handleChorusButton);
 
