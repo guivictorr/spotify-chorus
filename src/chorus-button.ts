@@ -7,13 +7,9 @@ function buildChorusIcon() {
 }
 
 function buildChorusUrl(songName: string | null, artistName: string | null) {
-  if (!songName || !artistName) {
-    return;
-  }
-
   const query = new URLSearchParams({
-    name: songName,
-    artist: artistName,
+    name: songName ?? '',
+    artist: artistName ?? '',
   });
 
   return `https://www.enchor.us?${query.toString()}`;

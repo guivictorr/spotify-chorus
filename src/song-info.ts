@@ -13,11 +13,18 @@ export function getSongInfoFrom(offsetParent: Element) {
     'a[data-testid="context-item-link"], a[data-testid="internal-track-link"], a[href^="/track"]',
   );
   const artistNameElement = Array.from(
-    document.querySelectorAll('a[href^="/artist"]'),
-  ).shift();
+    offsetParent.querySelectorAll('a[href^="/artist"]'),
+  ).pop();
+
+  const artistNameElementFallback = document.querySelector(
+    'span[data-testid="entityTitle"]',
+  );
+  const artistElement = artistNameElement
+    ? artistNameElement
+    : artistNameElementFallback;
 
   const songName = sanitizeSongName(songNameElement?.textContent);
-  const artistName = artistNameElement?.textContent ?? null;
+  const artistName = artistElement?.textContent ?? null;
 
   return {
     songName,
