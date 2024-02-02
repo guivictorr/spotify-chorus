@@ -7,19 +7,16 @@ function buildChorusIcon() {
 }
 
 function buildChorusUrl(songName: string | null, artistName: string | null) {
-  const queryParams = [];
-
-  if (songName) {
-    queryParams.push(`name="${songName}"`);
+  if (!songName || !artistName) {
+    return;
   }
 
-  if (artistName) {
-    queryParams.push(`artist="${artistName}"`);
-  }
+  const query = new URLSearchParams({
+    name: songName,
+    artist: artistName,
+  });
 
-  const queryString = queryParams.join(' ');
-
-  return `https://chorus.fightthe.pw/search?query=${queryString}`;
+  return `https://www.enchor.us?${query.toString()}`;
 }
 
 function handleChorusButton(event: MouseEvent) {

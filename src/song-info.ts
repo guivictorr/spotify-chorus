@@ -13,8 +13,8 @@ export function getSongInfoFrom(offsetParent: Element) {
     'a[data-testid="context-item-link"], a[data-testid="internal-track-link"], a[href^="/track"]',
   );
   const artistNameElement = Array.from(
-    offsetParent.querySelectorAll('a[href^="/artist"]'),
-  ).pop();
+    document.querySelectorAll('a[href^="/artist"]'),
+  ).shift();
 
   const songName = sanitizeSongName(songNameElement?.textContent);
   const artistName = artistNameElement?.textContent ?? null;
