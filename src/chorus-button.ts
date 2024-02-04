@@ -1,5 +1,7 @@
 import { getSongInfoFrom } from './song-info';
 
+const URL = 'https://www.enchor.us';
+
 function buildChorusIcon() {
   const img = document.createElement('img');
   img.src = chrome.runtime.getURL('./assets/icon.png');
@@ -12,7 +14,7 @@ function buildChorusUrl(songName: string | null, artistName: string | null) {
     artist: artistName ?? '',
   });
 
-  return `https://www.enchor.us?${query.toString()}`;
+  return `${URL}?${query.toString()}`;
 }
 
 function handleChorusButton(event: MouseEvent) {
