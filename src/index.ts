@@ -1,9 +1,9 @@
-import { createChorusButton } from './chorus-button';
+import { createChorusButton, handleChorusButton } from './chorus-button';
 
-function addChorusButtonTo(node: Element) {
+function addChorusButtonTo(node: Element, clickEvent: (e: MouseEvent) => void) {
   const chorusButton = node.querySelector('.chorus-button');
   if (!chorusButton) {
-    const chorusLink = createChorusButton();
+    const chorusLink = createChorusButton(clickEvent);
     node.appendChild(chorusLink);
   }
 }
@@ -23,11 +23,11 @@ function validateBodyMutations(domMutation: MutationRecord) {
   );
 
   if (trackListRow) {
-    addChorusButtonTo(trackListRow.lastElementChild!);
+    addChorusButtonTo(trackListRow.lastElementChild!, handleChorusButton);
   }
 
   if (nowPlayingWidget) {
-    addChorusButtonTo(nowPlayingWidget);
+    addChorusButtonTo(nowPlayingWidget, handleChorusButton);
   }
 }
 

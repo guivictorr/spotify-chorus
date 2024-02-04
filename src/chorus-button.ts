@@ -17,7 +17,7 @@ function buildChorusUrl(songName: string | null, artistName: string | null) {
   return `${URL}?${query.toString()}`;
 }
 
-function handleChorusButton(event: MouseEvent) {
+export function handleChorusButton(event: MouseEvent) {
   const targetElement = event.target as HTMLButtonElement;
   const offsetParent = targetElement.offsetParent;
 
@@ -31,7 +31,7 @@ function handleChorusButton(event: MouseEvent) {
   window.open(chorusUrl, '_blank');
 }
 
-export function createChorusButton() {
+export function createChorusButton(callback: (event: MouseEvent) => void) {
   const button = document.createElement('button');
   const chorusIcon = buildChorusIcon();
 
@@ -39,7 +39,7 @@ export function createChorusButton() {
   button.classList.add('chorus-button');
   button.ariaLabel = 'Search song on Chorus';
 
-  button.addEventListener('click', handleChorusButton);
+  button.addEventListener('click', callback);
 
   return button;
 }
